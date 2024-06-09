@@ -1,6 +1,7 @@
 import os
 import eyed3
 from datetime import datetime
+
 def update_id3_tags_and_rename_files():
     # Get the directory where the script is located
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -45,6 +46,9 @@ def update_id3_tags_and_rename_files():
 
             # Update the title tag
             audiofile.tag.title = new_title
+
+            # Set the "remember playback position" tag
+            audiofile.tag.user_text_frames.set("TPOS", "1/1")  # TPOS is the frame for playback position
 
             # Save the changes
             audiofile.tag.save()
