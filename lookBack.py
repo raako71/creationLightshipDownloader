@@ -27,15 +27,12 @@ def find_most_recent_file(date, start_year=2018):
     base_url = "https://creationlightship-archive.com/radioa/"
     
     # Initialize the current year to start the search
-    print(f"year = {start_year}")
-    
     search_string = date.strftime("%m-%d")
     
     # Define the years to search 
     years = [str(year) for year in range(int(start_year), 2008, -1)]  # From 2018 to 2009
     
     for year in years:
-        print(f"Searching: {year}")
         # Construct the URL to search for the current year
         url = base_url + year + "%20Shows"
         
@@ -95,10 +92,40 @@ def download_mp3(url, destination=None):
                 downloaded_size += len(buffer)
                 progress = downloaded_size / total_size * 100
                 print(f"\rDownloading: {progress:.2f}%", end='', flush=True)
-
-        print(f"\nFile downloaded successfully: {file_path}")
     except Exception as e:
         print(f"\nError downloading file from URL: {e}")
+        
+def iterate_dates_and_download(start_date, end_date):
+    # Create a list to store information about each date
+    date_info_list = []
+
+    # Iterate through each date from start_date to end_date
+    current_date = start_date
+    while current_date <= end_date:
+        # Find the most recent file for the current date
+        url, year = find_most_recent_file(current_date)
+
+        # If a URL is found, store the date, year, and URL
+        if url:
+            date_info_list.append((current_date.strftime("%m-%d"), year, url))
+            print(f"Found {current_date.strftime('%m-%d')}-{year}")
+
+        # Move to the next date
+        current_date += timedelta(days=1)
+
+    # Prompt the user to either quit or download the files
+    user_input = input("Press Q to quit, or Enter to download: ").strip().lower()
+    if user_input == "q":
+        print("Exiting...")
+        return
+
+    # Download the files for each date
+    for date_info in date_info_list:
+        date, year, url = date_info
+        print(f"Downloading file for {date}...")
+        download_mp3(url)
+    
+    print("Download complete. Press enter to quit.")
         
 def main():  
     
@@ -153,10 +180,15 @@ def main():
                 loop = 0
                 break
             elif user_input == "r":
+                loop = 0
                 main()
             else:
                 print("Invalid input. Please enter B, Enter, or Q.")
-
+    else:
+        user_input = input("Press Q to Quit or Enter to list all files").strip().lower()
+        if user_input != "q":
+            iterate_dates_and_download(start_date, end_date)
+    
     
     # Delete the temporary download directory and its contents
     shutil.rmtree(temp_download_dir)
