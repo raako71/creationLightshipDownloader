@@ -22,9 +22,9 @@ def update_id3_tags_and_rename_files():
         print(f"{idx}. {filename}")
 
     # Ask user for confirmation
-    proceed = input("Do you want to update ID3 tags and rename these files? (yes/no): ").strip().lower()
+    proceed = input("Update tags? [default Y]:").strip().lower()
 
-    if proceed != 'yes':
+    if proceed != 'Y' and proceed != "":
         print("Operation cancelled.")
         return
 

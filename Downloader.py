@@ -164,14 +164,15 @@ def main():
     loop = 1
     # Prompt user for next action if start_date is the same as end_date
     if start_date == end_date:
+        # Call the function initially
+        url, year = find_and_print_most_recent_file(start_date)
         while loop == 1:
-            # Call the function initially
-            url, year = find_and_print_most_recent_file(start_date)
             user_input = input("Enter B to search back previous years for the same date, Q to quit, R to restart, or Enter to download: ").strip().lower()
             if user_input == "b":
                 url, year = find_and_print_most_recent_file(start_date, year=str(int(year) - 1))
             elif user_input == "":
                 download_mp3(url)
+                print("")
             elif user_input == "q":
                 print("Exiting...")
                 loop = 0
