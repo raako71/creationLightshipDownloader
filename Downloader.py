@@ -149,7 +149,7 @@ def main():
     
     # Display selected date(s)
     if start_date == end_date:
-        print(f"Date selected is {start_date.strftime('%m-%d')}")
+        print(f"Date selected is {start_date.strftime('%m-%d')} ({start_date.strftime('%B %d')})")
     else:
         print(f"Dates selected are {start_date.strftime('%m-%d')} through {end_date.strftime('%m-%d')}")
 
