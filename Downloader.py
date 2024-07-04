@@ -8,10 +8,12 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta
 
-def get_date_input(prompt):
+def get_date_input(prompt, default_date):
     """Get a date input from the user and validate the format."""
     while True:
         date_str = input(prompt).strip()
+        if not date_str:
+            return default_date
         try:
             return datetime.strptime(date_str, "%m-%d")
         except ValueError:
@@ -21,7 +23,7 @@ def get_date_input(prompt):
 temp_download_dir = "temp_download"
 if not os.path.exists(temp_download_dir):
     os.makedirs(temp_download_dir)
-        
+
 def find_most_recent_file(date, start_year=2018):
     # Define the base URL for the webpage
     base_url = "https://creationlightship-archive.com/radioa/"
@@ -46,9 +48,8 @@ def find_most_recent_file(date, start_year=2018):
         with open(html_file_path, "r", encoding="utf-8") as html_file:
             html_content = html_file.read()
     
-       # Search for the search string in the HTML content
+        # Search for the search string in the HTML content
         if search_string in html_content:
-
             # Use regular expression to find URLs containing the search string
             found_urls = re.findall(r'"url":"(.*?)"', html_content)
 
@@ -94,7 +95,7 @@ def download_mp3(url, destination=None):
                 print(f"\rDownloading: {progress:.2f}%", end='', flush=True)
     except Exception as e:
         print(f"\nError downloading file from URL: {e}")
-        
+
 def iterate_dates_and_download(start_date, end_date):
     # Create a list to store information about each date
     date_info_list = []
@@ -126,11 +127,14 @@ def iterate_dates_and_download(start_date, end_date):
         download_mp3(url)
     
     print("Download complete. Press enter to quit.")
-        
-def main():  
+
+def main():
+    today = datetime.now()
+    today_str = today.strftime("%m-%d")
     
     # Capture and validate start date
-    start_date = get_date_input("Enter the start date (in format MM-DD): ")
+    start_date_prompt = f"Enter start date, MM-DD ({today_str}): "
+    start_date = get_date_input(start_date_prompt, today)
 
     # Capture and validate end date or proceed with single date
     while True:
@@ -146,7 +150,7 @@ def main():
                 print("End date cannot be earlier than start date.")
         except ValueError:
             print("Invalid date format. Please enter the date in MM-DD format.")
-    
+
     # Display selected date(s)
     if start_date == end_date:
         print(f"Date selected is {start_date.strftime('%m-%d')} ({start_date.strftime('%B %d')})")
@@ -161,6 +165,7 @@ def main():
         else:
             print("No file found for the start date.")
         return url, year
+
     loop = 1
     # Prompt user for next action if start_date is the same as end_date
     if start_date == end_date:
@@ -186,8 +191,7 @@ def main():
         user_input = input("Press Q to Quit or Enter to list all files").strip().lower()
         if user_input != "q":
             iterate_dates_and_download(start_date, end_date)
-    
-    
+
     # Delete the temporary download directory and its contents
     shutil.rmtree(temp_download_dir)
 
