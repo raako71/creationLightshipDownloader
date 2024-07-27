@@ -65,7 +65,7 @@ def download_mp3(url, destination=None):
     try:
         # If no destination is provided, use the current directory
         if destination is None:
-            destination = os.getcwd()
+            destination = os.path.join(os.path.expanduser("~"), "Downloads")
         
         # Create the destination directory if it doesn't exist
         if not os.path.exists(destination):
