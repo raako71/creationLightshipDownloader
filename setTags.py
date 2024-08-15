@@ -4,13 +4,13 @@ from datetime import datetime
 
 def update_id3_tags_and_rename_files():
     # Get the directory where the script is located
-    script_dir = os.path.dirname(os.path.abspath(__file__))
+    downloads_dir = os.path.join(os.path.expanduser("~"), "Downloads")
 
     # Change to the script's directory
-    os.chdir(script_dir)
+    os.chdir(downloads_dir)
 
     # Find all MP3 files in the directory
-    mp3_files = [f for f in os.listdir(script_dir) if f.endswith(".mp3")]
+    mp3_files = [f for f in os.listdir(downloads_dir) if f.endswith(".mp3") and f.startswith("Creation_Lightship_Healings")]
 
     if not mp3_files:
         print("No MP3 files found in the directory.")
