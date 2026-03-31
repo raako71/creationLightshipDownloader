@@ -14,6 +14,8 @@ def get_date_input(prompt, default_date):
         date_str = input(prompt).strip()
         if not date_str:
             return default_date
+        if date_str.lower() == 'b':
+            return default_date - timedelta(days=1)
         try:
             return datetime.strptime(date_str, "%m-%d")
         except ValueError:
@@ -133,7 +135,7 @@ def main():
     today_str = today.strftime("%m-%d")
     
     # Capture and validate start date
-    start_date_prompt = f"Enter start date, MM-DD ({today_str}): "
+    start_date_prompt = f"Enter start date, MM-DD ({today_str}) (or 'b' for yesterday): "
     start_date = get_date_input(start_date_prompt, today)
 
     # Capture and validate end date or proceed with single date

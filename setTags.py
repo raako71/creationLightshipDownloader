@@ -10,10 +10,25 @@ def update_id3_tags_and_rename_files():
     os.chdir(downloads_dir)
 
     # Find all MP3 files in the directory
-    mp3_files = [f for f in os.listdir(downloads_dir) if f.endswith(".mp3") and f.startswith("Creation_Lightship_Healings")]
+    mp3_files = [f for f in os.listdir(downloads_dir) if f.endswith(".mp3") and f.startswith("Creation_Lightship_Healings") and not f.endswith("r.mp3")]
+    
+    # Find already processed files
+    already_renamed = [f for f in os.listdir(downloads_dir) if f.endswith("r.mp3") and f.startswith("Creation_Lightship_Healings")]
+
+    if not mp3_files and not already_renamed:
+        print("No MP3 files found in the directory.")
+        input("Press Enter to quit.")
+        return
+
+    # List already processed files
+    if already_renamed:
+        print("Already processed files:")
+        for filename in already_renamed:
+            print(f"  {filename}")
 
     if not mp3_files:
-        print("No MP3 files found in the directory.")
+        print("All files already processed.")
+        input("Press Enter to quit.")
         return
 
     # List the files found
