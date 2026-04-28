@@ -1,0 +1,17 @@
+{
+  "name": "Creation Lightship Downloader",
+  "short_name": "Lightship",
+  "description": "Browse and download Creation Lightship archive recordings by date.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#0f3460",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230f3460'/><text y='70' x='50' text-anchor='middle' font-size='60' fill='%23e94560'>☀</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
