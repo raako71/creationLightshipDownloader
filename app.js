@@ -117,6 +117,57 @@ function init() {
   ]);
 }
 
+// ── install prompt ────────────────────────────────────────────────────────────
+
+(function initInstallPrompt() {
+  const footer     = document.getElementById('install-footer');
+  const btn        = document.getElementById('install-btn');
+  const iosMsg     = document.getElementById('install-ios');
+
+  // iOS Safari does not fire beforeinstallprompt – show manual instructions instead
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) &&
+                !/crios|fxios/i.test(navigator.userAgent); // exclude Chrome/Firefox on iOS
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                       window.navigator.standalone === true;
+
+  if (isStandalone) {
+    // Already installed – nothing to show
+    return;
+  }
+
+  if (isIOS) {
+    footer.hidden = false;
+    btn.hidden    = true;
+    iosMsg.hidden = false;
+    return;
+  }
+
+  // Chrome / Edge / Android – use the deferred install prompt
+  let deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt  = e;
+    footer.hidden   = false;
+  });
+
+  btn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    if (outcome === 'accepted') {
+      footer.hidden = true;
+    }
+  });
+
+  // Hide the footer once the app is installed via another path
+  window.addEventListener('appinstalled', () => {
+    footer.hidden  = true;
+    deferredPrompt = null;
+  });
+}());
+
 // Register service worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

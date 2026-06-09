@@ -108,6 +108,39 @@
       outline: none;
     }
 
+    /* ── footer / install prompt ───────────────────────────────────────── */
+    footer {
+      background: var(--accent);
+      padding: 0.6rem 1.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    #install-btn {
+      display: inline-block;
+      background: var(--highlight);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+
+    #install-btn:hover,
+    #install-btn:focus {
+      opacity: 0.85;
+      outline: none;
+    }
+
+    #install-ios {
+      color: var(--text);
+    }
+
     /* ── responsive: stack on narrow screens ───────────────────────────── */
     @media (max-width: 480px) {
       main {
@@ -134,6 +167,13 @@
       <div class="links" id="today-links"></div>
     </div>
   </main>
+
+  <footer id="install-footer" hidden>
+    <button id="install-btn" type="button">⊕ Add to Home Screen</button>
+    <span id="install-ios" hidden>
+      Tap <strong>Share</strong> then <strong>"Add to Home Screen"</strong> to install.
+    </span>
+  </footer>
 
   <script src="app.js"></script>
 </body>
