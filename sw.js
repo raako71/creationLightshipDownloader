@@ -1,10 +1,11 @@
-const CACHE_NAME    = 'lightship-v1';
+const CACHE_NAME    = 'lightship-v2';
 const ARCHIVE_HOST  = 'creationlightship-archive.com';
 const PROXY_HOST    = 'corsproxy.io';
 const STATIC_ASSETS = [
   './index.html',
   './app.js',
-  './manifest.json'
+  './manifest.json',
+  './favicon.svg'
 ];
 
 self.addEventListener('install', event => {
