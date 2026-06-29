@@ -117,6 +117,12 @@ function init() {
   ]);
 }
 
+// ── header refresh ────────────────────────────────────────────────────────────
+
+document.getElementById('app-header').addEventListener('click', () => {
+  location.reload();
+});
+
 // ── install prompt ────────────────────────────────────────────────────────────
 
 (function initInstallPrompt() {

@@ -36,7 +36,7 @@
       min-height: 100vh;
     }
 
-    /* ── app header ────────────────────────────────────────────────────── */
+    /* ── app header (tap to refresh) ───────────────────────────────────── */
     header {
       background: var(--accent);
       padding: 0.75rem 1.5rem;
@@ -45,6 +45,21 @@
       font-weight: 600;
       letter-spacing: 0.04em;
       color: #fff;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    header:active {
+      opacity: 0.8;
+    }
+
+    #refresh-icon {
+      display: inline-block;
+      margin-left: 0.4rem;
+      font-size: 1rem;
+      vertical-align: middle;
+      opacity: 0.7;
     }
 
     /* ── two-column layout ─────────────────────────────────────────────── */
@@ -150,7 +165,7 @@
   </style>
 </head>
 <body>
-  <header>Creation Lightship Archive</header>
+  <header id="app-header">Creation Lightship Archive<span id="refresh-icon">↻</span></header>
 
   <main>
     <!-- Yesterday column -->
