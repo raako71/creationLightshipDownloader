@@ -130,9 +130,9 @@ document.getElementById('app-header').addEventListener('click', () => {
   const btn        = document.getElementById('install-btn');
   const iosMsg     = document.getElementById('install-ios');
 
-  // iOS Safari does not fire beforeinstallprompt – show manual instructions instead
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) &&
-                !/crios|fxios/i.test(navigator.userAgent); // exclude Chrome/Firefox on iOS
+  // iOS browsers do not fire beforeinstallprompt – show manual instructions instead
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
                        window.navigator.standalone === true;
 
